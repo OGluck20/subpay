@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SubPay - Subscription Services</title>
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo-section">
+      <a href="index.html" class="logo">
+        <span class="logo-text">Sub<span class="highlight">Pay</span></span>
+      </a>
+    </div>
+    <nav class="main-nav">
+      <button class="mobile-menu" id="openSidebar" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <div class="dropdown">
+          <button class="dropdown-btn">
+            <i class="fas fa-list"></i> Services
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="#"><i class="fas fa-phone"></i> Airtime Recharge</a>
+            <a href="#"><i class="fas fa-wifi"></i> Data Bundles</a>
+            <a href="#"><i class="fas fa-bolt"></i> Utility Bills</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropdown-btn">
+            <i class="fas fa-star"></i> Features
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="#"><i class="fas fa-bolt"></i> Instant Recharge</a>
+            <a href="#"><i class="fas fa-clock"></i> Scheduled Payments</a>
+            <a href="#"><i class="fas fa-history"></i> Transaction History</a>
+          </div>
+        </div>
+        <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-signal"></i>
+        <span>SubPay</span>
+      </div>
+      <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="services.html">
+        <i class="fas fa-list"></i>
+        <span>Services</span>
+      </a>
+      <a href="features.html">
+        <i class="fas fa-star"></i>
+        <span>Features</span>
+      </a>
+      <div class="auth-links">
+        <a href="register.html" class="btn btn-primary">
+          <i class="fas fa-user-plus"></i>
+          <span>Register</span>
+        </a>
+        <a href="login.html" class="btn btn-secondary">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Simplify Your Digital Life</h2>
+        <p class="hero-subtitle">Purchase airtime, data bundles, and manage all your subscriptions in one place</p>
+        <div class="hero-buttons">
+          <a href="register.html" class="btn btn-primary">Get Started</a>
+          <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>Why Choose SubPay?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-bolt"></i>
+          <h3>Instant Recharge</h3>
+          <p>Quick and secure airtime top-up for all networks</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-wifi"></i>
+          <h3>Data Bundles</h3>
+          <p>Flexible data plans for all your internet needs</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Secure Payments</h3>
+          <p>Safe and encrypted transaction processing</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-history"></i>
+          <h3>24/7 Support</h3>
+          <p>Round-the-clock customer assistance</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="services">
+      <h2>Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <img src="assets/images/download.jpg" alt="Airtime">
+          <h3>Airtime Purchase</h3>
+          <p>Top up any network, anytime</p>
+        </div>
+        <div class="service-card">
+          <img src="assets/images/images.jpg" alt="Data">
+          <h3>Data Bundles</h3>
+          <p>Stay connected with our data plans</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> support@subpay.com</p>
+        <p><i class="fas fa-phone"></i> +23408078123476</p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 SubPay. All Rights Reserved.</p>
+      <p>credits: <a href="https://daniel-gbenga-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none;">OG luck</a></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

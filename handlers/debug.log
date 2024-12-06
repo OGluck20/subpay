@@ -1,0 +1,251 @@
+[2024-12-06 12:36:26] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733484986750khzoig
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 12:36:26] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733484986750khzoig
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 12:36:27] GSUBZ API Response:
+Data: {
+    "code": "407",
+    "description": "Chat Admin to get upgraded before using our API, Thank you!",
+    "status": "TRANSACTION_FAILED"
+}
+--------------------------------------------------
+[2024-12-06 15:42:41] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 265
+    [amount] => 100
+    [requestID] => 1733496161726j3i0yh
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:42:41] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 265
+    [amount] => 100
+    [requestID] => 1733496161726j3i0yh
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:42:42] GSUBZ API Response:
+Data: {
+    "code": "407",
+    "description": "Chat Admin to get upgraded before using our API, Thank you!",
+    "status": "TRANSACTION_FAILED"
+}
+--------------------------------------------------
+[2024-12-06 15:43:44] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496224117jg8b3d
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:43:44] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496224117jg8b3d
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:43:45] GSUBZ API Response:
+Data: {
+    "code": "407",
+    "description": "Chat Admin to get upgraded before using our API, Thank you!",
+    "status": "TRANSACTION_FAILED"
+}
+--------------------------------------------------
+[2024-12-06 15:48:17] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496497243uaon6s
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:48:17] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496497243uaon6s
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:48:18] GSUBZ API Response:
+Data: {
+    "code": null,
+    "status": "TRANSACTION_FAILED",
+    "description": "SERVICE_CANNOT_BE_FOUND",
+    "content": {
+        "requestID": "1733496497243uaon6s",
+        "serviceID": "glo_cg",
+        "image": "\/\/gsubz.com\/uploads\/service\/",
+        "status": "TRANSACTION_FAILED",
+        "description": "SERVICE_CANNOT_BE_FOUND",
+        "serviceName": null,
+        "code": null
+    }
+}
+--------------------------------------------------
+[2024-12-06 15:50:10] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 17334966106672tvc2r
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:50:10] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 17334966106672tvc2r
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:50:11] GSUBZ API Response:
+Data: {
+    "code": null,
+    "status": "TRANSACTION_FAILED",
+    "description": "SERVICE_CANNOT_BE_FOUND",
+    "content": {
+        "requestID": "17334966106672tvc2r",
+        "serviceID": "glo_cg",
+        "image": "\/\/gsubz.com\/uploads\/service\/",
+        "status": "TRANSACTION_FAILED",
+        "description": "SERVICE_CANNOT_BE_FOUND",
+        "serviceName": null,
+        "code": null
+    }
+}
+--------------------------------------------------
+[2024-12-06 15:51:52] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496712228dstl6ai
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:51:52] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_cg
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496712228dstl6ai
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:51:53] GSUBZ API Response:
+Data: {
+    "code": null,
+    "status": "TRANSACTION_FAILED",
+    "description": "SERVICE_CANNOT_BE_FOUND",
+    "content": {
+        "requestID": "1733496712228dstl6ai",
+        "serviceID": "glo_cg",
+        "image": "\/\/gsubz.com\/uploads\/service\/",
+        "status": "TRANSACTION_FAILED",
+        "description": "SERVICE_CANNOT_BE_FOUND",
+        "serviceName": null,
+        "code": null
+    }
+}
+--------------------------------------------------
+[2024-12-06 15:53:44] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_data
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496824094rl15bj
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2024-12-06 15:53:44] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_data
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 70
+    [requestID] => 1733496824094rl15bj
+    [userId] => 4
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------

@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - SubPay</title>
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <a href="#" class="logo">
+        <span class="logo-text">Sub<span class="highlight">Pay</span></span>
+      </a>
+      <button class="close-sidebar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" onclick="showAirtimeModal(); return false;"><i class="fas fa-phone-alt"></i> Buy Airtime</a>
+      <a href="#" onclick="showDataModal(); return false;"><i class="fas fa-wifi"></i> Buy Data</a>
+      <a href="transactions.html"><i class="fas fa-history"></i> Transaction History</a>
+      <a href="#" onclick="showReferralModal(); return false;"><i class="fas fa-users"></i> Refer & Earn</a>
+      <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <header class="dashboard-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <a href="index.html" class="logo">
+            <span class="logo-text">Sub<span class="highlight">Pay</span></span>
+          </a>
+        </div>
+        
+        <nav class="desktop-nav">
+          <div class="dropdown">
+            <a href="#" class="dropdown-trigger">
+              <i class="fas fa-list"></i> Services <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-content">
+              <a href="data_subscription.html"><i class="fas fa-wifi"></i> Buy Data</a>
+              <a href="#" onclick="showAirtimeModal(); return false;"><i class="fas fa-phone-alt"></i> Buy Airtime</a>
+              <a href="#" onclick="showReferralModal(); return false;"><i class="fas fa-users"></i> Refer & Earn</a>
+            </div>
+          </div>
+          <a href="#History"><i class="fas fa-history"></i> History</a>
+          <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+
+        <button class="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="dashboard-container">
+      <section class="wallet-card">
+        <div class="greeting">
+          <h3>Welcome back, User</h3>
+        </div>
+        <h2><i class="fas fa-wallet"></i> Wallet Balance</h2>
+        <div class="balance-container">
+          <div class="balance-wrapper">
+            <span id="balanceAmount" style="font-size: 20px;">₦0.00</span>
+            <button id="hideBalanceBtn" class="hide-balance-btn">
+              <i class="fas fa-eye-slash"></i>
+            </button>
+          </div>
+        </div>
+        <div class="wallet-actions">
+          <button class="btn primary-btn"><i class="fas fa-plus"></i> Fund Wallet</button>
+          <button class="btn secondary-btn"><i class="fas fa-exchange-alt"></i> Transfer</button>
+        </div>
+      </section>
+
+      <section class="quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-grid">
+          <div class="action-card" data-action="data">
+            <i class="fas fa-wifi"></i>
+            <h3>Buy Data</h3>
+            <p>Purchase data bundles for all networks</p>
+          </div>
+          <div class="action-card" data-action="airtime">
+            <i class="fas fa-phone-alt"></i>
+            <h3>Buy Airtime</h3>
+            <p>Recharge any network instantly</p>
+          </div>
+          <div class="action-card" data-action="referral">
+            <i class="fas fa-users"></i>
+            <h3>Refer & Earn</h3>
+            <p>Invite friends and earn rewards</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="transactions-section transactions-container" id="History">
+        <h2>Recent Transactions</h2>
+        <!-- No transactions message -->
+        <div id="noTransactions" class="no-transactions">
+          <i class="fas fa-history"></i>
+          <p>No transaction record</p>
+        </div>
+        
+        <!-- Transactions list -->
+        <div id="transactionsList" class="transactions-list">
+          <!-- Transactions will be inserted here -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="overlay"></div>
+
+  <div id="fundWalletModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Fund Wallet</h2>
+      <div class="input-group">
+        <label for="amount">Enter Amount (NGN)</label>
+        <input type="number" id="amount" min="100" placeholder="Enter amount">
+      </div>
+      <button onclick="initiatePayment()" class="btn primary-btn">Proceed to Payment</button>
+    </div>
+  </div>
+
+  <div id="transferModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div class="message-content">
+        <i class="fas fa-info-circle"></i>
+        <h2>Feature Not Available</h2>
+        <p>The transfer feature is currently not available. Please check back later.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="airtimeModal" class="modal service-modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      
+      <div class="card-header">
+        <h2><i class="fas fa-phone-alt"></i> Airtime Purchase</h2>
+        <p class="subtitle">Purchase airtime for any network</p>
+      </div>
+
+      <form id="airtime-purchase-form" class="service-form" autocomplete="on">
+        <div class="form-group">
+          <label for="airtime-network">Select Network:</label>
+          <div class="network-options">
+            <label class="network-option">
+              <input type="radio" name="network" value="mtn" required>
+              <span class="network-label">
+                <img src="assets/images/pngwing.com (1).png" alt="MTN">
+                <span>MTN</span>
+              </span>
+            </label>
+            <label class="network-option">
+              <input type="radio" name="network" value="airtel">
+              <span class="network-label">
+                <img src="assets/images/pngwing.com.png" alt="Airtel">
+                <span>Airtel</span>
+              </span>
+            </label>
+            <label class="network-option">
+              <input type="radio" name="network" value="glo">
+              <span class="network-label">
+                <img src="assets/images/glo.jpg" alt="Glo">
+                <span>Glo</span>
+              </span>
+            </label>
+            <label class="network-option">
+              <input type="radio" name="network" value="etisalat">
+              <span class="network-label">
+                <img src="assets/images/pngegg (3).png" alt="9mobile">
+                <span>9mobile</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone-number">Phone Number:</label>
+          <div class="input-with-icon">
+            <input type="tel" 
+                   id="phone-number" 
+                   name="phone-number" 
+                   placeholder="Enter phone number" 
+                   required 
+                   autocomplete="tel"
+                   pattern="[0-9]{11}"
+                   maxlength="11">
+          </div>
+          <small class="form-text">Enter 11 digit phone number</small>
+        </div>
+
+        <div class="form-group">
+          <label for="quick-amount">Quick Amount:</label>
+          <div class="quick-amounts" id="quick-amount">
+            <button type="button" class="amount-btn" data-amount="100">₦100</button>
+            <button type="button" class="amount-btn" data-amount="200">₦200</button>
+            <button type="button" class="amount-btn" data-amount="500">₦500</button>
+            <button type="button" class="amount-btn" data-amount="1000">₦1000</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Amount (₦):</label>
+          <div class="input-with-icon">
+            <input type="number" 
+                   id="amount" 
+                   name="amount" 
+                   placeholder="Enter amount" 
+                   required 
+                   autocomplete="transaction-amount"
+                   min="50"
+                   step="1">
+          </div>
+          <small class="form-text">Minimum amount: ₦50</small>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-shopping-cart"></i>
+          Purchase Airtime
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="dataModal" class="modal service-modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      
+      <div class="card-header">
+        <h2><i class="fas fa-wifi"></i> Data Purchase</h2>
+        <p class="subtitle">Purchase data bundle for any network</p>
+      </div>
+
+      <form id="data-purchase-form" class="service-form">
+        <input type="hidden" name="userId" id="data-user-id">
+        
+        <div class="form-group">
+          <label for="data-network">Select Network:</label>
+          <div class="network-options">
+            <label class="network-option">
+              <input type="radio" name="network" value="mtn" required>
+              <span class="network-label">
+                <img src="assets/images/pngwing.com (1).png" alt="MTN">
+                <span>MTN</span>
+              </span>
+            </label>
+            <label class="network-option">
+              <input type="radio" name="network" value="airtel">
+              <span class="network-label">
+                <img src="assets/images/pngwing.com.png" alt="Airtel">
+                <span>Airtel</span>
+              </span>
+            </label>
+            <label class="network-option">
+              <input type="radio" name="network" value="glo">
+              <span class="network-label">
+                <img src="assets/images/glo.jpg" alt="Glo">
+                <span>Glo</span>
+              </span>
+            </label>
+            <label class="network-option">
+              <input type="radio" name="network" value="9mobile">
+              <span class="network-label">
+                <img src="assets/images/pngegg (3).png" alt="9mobile">
+                <span>9mobile</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="data-phone">Phone Number:</label>
+          <div class="input-with-icon">
+            <input type="tel" 
+                   id="data-phone" 
+                   name="phone" 
+                   placeholder="Enter phone number" 
+                   required
+                   pattern="[0-9]{11}"
+                   maxlength="11">
+          </div>
+          <small class="form-text">Enter 11 digit phone number</small>
+        </div>
+
+        <div class="form-group">
+          <label for="data-plan">Select Data Plan:</label>
+          <div class="input-with-icon">
+            <select id="data-plan" name="plan" required disabled>
+              <option value="">Select network first</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="data-amount">Amount (₦):</label>
+          <div class="input-with-icon">
+            <input type="number" 
+                   id="data-amount" 
+                   name="amount" 
+                   placeholder="Amount will be set automatically" 
+                   readonly>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-shopping-cart"></i>
+          Purchase Data
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div id="loadingIndicator" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p>Processing your request...</p>
+  </div>
+
+  <!-- Third-party Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+  <!-- Your custom scripts -->
+  <script src="assets/js/dashboard.js" defer></script>
+
+  <style>
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1001;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      position: relative;
+      margin: 40px auto;
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 24px;
+      color: #666;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    /* Center modal vertically on larger screens */
+    @media (min-height: 800px) {
+      .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        margin: 0 auto;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .modal {
+        padding: 10px;
+      }
+
+      .modal-content {
+        padding: 20px;
+        margin: 20px auto;
+      }
+
+      .card-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Ensure content doesn't overflow on very small screens */
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 15px;
+        margin: 10px auto;
+      }
+
+      .close-btn {
+        right: 15px;
+        top: 15px;
+      }
+    }
+
+    /* Add smooth scrolling for modal content */
+    .service-form {
+      overflow-y: auto;
+      max-height: calc(100vh - 200px);
+      padding-right: 5px;
+    }
+
+    .service-form::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .service-form::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .service-form::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+
+    .service-form::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .service-modal .modal-content {
+      max-width: 600px;
+      min-height: min-content;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .input-group {
+      margin: 20px 0;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .message-content {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .message-content i {
+      font-size: 48px;
+      color: #f0ad4e;
+      margin-bottom: 15px;
+    }
+
+    .message-content h2 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .message-content p {
+      color: #666;
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .greeting {
+      margin-bottom: 20px;
+    }
+
+    .greeting h3 {
+      font-size: 1.5rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .greeting .username {
+      color: #007bff;
+      font-weight: 600;
+    }
+
+    .wallet-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .primary-btn {
+      background: #007bff;
+      color: white;
+    }
+
+    .primary-btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    }
+
+    .secondary-btn {
+      background: #f8f9fa;
+      color: #333;
+      border: 1px solid #dee2e6;
+    }
+
+    .secondary-btn:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Update modal button styles */
+    .modal .btn {
+      width: 100%;
+      margin-top: 15px;
+      justify-content: center;
+    }
+
+    /* Add responsive styles */
+    @media (max-width: 768px) {
+      .wallet-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-trigger {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .dropdown-trigger .fa-chevron-down {
+      font-size: 0.8em;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .fa-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 8px 0;
+      z-index: 1000;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      transition: background-color 0.3s ease;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: -280px;
+      top: 0;
+      width: 280px;
+      height: 100%;
+      background: white;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close-sidebar {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .sidebar-nav {
+      padding: 20px 0;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      gap: 10px;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background: #f8f9fa;
+      color: #007bff;
+    }
+
+    .sidebar-nav a i {
+      width: 20px;
+      text-align: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 10px;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .sidebar.active + .overlay {
+        display: block;
+      }
+    }
+
+    .airtime-modal {
+      max-width: 500px !important;
+      padding: 25px !important;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card-header h2 {
+      color: #333;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .network-selector {
+      position: relative;
+    }
+
+    .network-selector select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      appearance: none;
+      background: white;
+      font-size: 1rem;
+    }
+
+    .network-selector .fa-chevron-down {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      pointer-events: none;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon input {
+      width: 100%;
+      padding: 12px;
+      padding-left: 40px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    }
+
+    /* Add responsive styles */
+    @media (max-width: 768px) {
+      .airtime-modal {
+        width: 90% !important;
+        padding: 20px !important;
+      }
+    }
+
+    .service-modal .modal-content {
+      max-width: 500px;
+      width: 90%;
+      padding: 25px;
+      margin: 20px auto;
+    }
+
+    .service-form {
+      margin-top: 20px;
+    }
+
+    .network-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .network-option {
+      cursor: pointer;
+    }
+
+    .network-option input[type="radio"] {
+      display: none;
+    }
+
+    .network-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .network-label img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      margin-bottom: 5px;
+    }
+
+    .network-option input[type="radio"]:checked + .network-label {
+      border-color: #007bff;
+      background: #f0f7ff;
+    }
+
+    .quick-amounts {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .amount-btn {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .amount-btn:hover {
+      background: #f8f9fa;
+    }
+
+    .bill-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .bill-option {
+      cursor: pointer;
+    }
+
+    .bill-option input[type="radio"] {
+      display: none;
+    }
+
+    .bill-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .bill-label i {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #666;
+    }
+
+    .bill-option input[type="radio"]:checked + .bill-label {
+      border-color: #007bff;
+      background: #f0f7ff;
+    }
+
+    .bill-option input[type="radio"]:checked + .bill-label i {
+      color: #007bff;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      appearance: none;
+      background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") no-repeat;
+      background-position: calc(100% - 12px) center;
+    }
+
+    .balance-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .balance {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toggle-balance {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-balance:hover {
+      color: #333;
+      transform: scale(1.1);
+    }
+
+    .toggle-balance i {
+      font-size: 1.2rem;
+    }
+
+    /* Update the styles for the no-transactions message */
+    .no-transactions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .no-transactions i {
+      font-size: 2.5em;
+      color: #999;
+      margin-bottom: 10px;
+    }
+
+    .no-transactions p {
+      font-size: 1rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* Update transaction list container */
+    #transactionsList {
+      margin-top: 10px;
+    }
+
+    .transaction-item {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border: 1px solid #eef0f2;
+      transition: all 0.2s ease;
+    }
+
+    .transaction-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .balance-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .balance-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hide-balance-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      color: #666;
+      transition: color 0.3s ease;
+    }
+
+    .hide-balance-btn:hover {
+      color: #333;
+    }
+
+    .hide-balance-btn i {
+      font-size: 1.2rem;
+    }
+
+    /* Optional: Add animation for smooth transition */
+    #balanceAmount {
+      transition: opacity 0.3s ease;
+    }
+
+    .balance-hidden {
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+  </style>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <style>
+    .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+    }
+
+    .toast {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: slideIn 0.3s ease-out;
+        max-width: 350px;
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    .toast.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .toast.success {
+        border-left: 4px solid #28a745;
+    }
+
+    .toast.error {
+        border-left: 4px solid #dc3545;
+    }
+
+    .toast.info {
+        border-left: 4px solid #17a2b8;
+    }
+
+    .toast.warning {
+        border-left: 4px solid #ffc107;
+    }
+
+    .toast i {
+        font-size: 1.2rem;
+    }
+
+    .toast.success i {
+        color: #28a745;
+    }
+
+    .toast.error i {
+        color: #dc3545;
+    }
+
+    .toast.info i {
+        color: #17a2b8;
+    }
+
+    .toast.warning i {
+        color: #ffc107;
+    }
+
+    .toast-content {
+        flex: 1;
+    }
+
+    .toast-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #333;
+    }
+
+    .toast-message {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .toast-close {
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 0;
+        transition: color 0.3s ease;
+    }
+
+    .toast-close:hover {
+        color: #333;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+  </style>
+
+  <!-- Add this modal after your other modals -->
+  <div id="referralModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div class="message-content">
+        <i class="fas fa-info-circle"></i>
+        <h2>Feature Not Available</h2>
+        <p>The Refer & Earn feature is currently under development. Check back soon to start earning rewards by inviting your friends!</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
