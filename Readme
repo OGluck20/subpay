@@ -161,7 +161,7 @@ Logs are stored in: `handlers/debug.log`
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/subpay.git
+git clone https://github.com/OGlcuk20/subpay.git
 ```
 
 2. Set up your local web server (XAMPP/WAMP)
