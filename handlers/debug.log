@@ -249,3 +249,36 @@ Data: Array
 )
 
 --------------------------------------------------
+[2025-04-11 10:28:39] Raw POST Data:
+Data: Array
+(
+    [serviceID] => glo_data
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 137
+    [requestID] => 1744360119128c6nbco
+    [userId] => 1
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2025-04-11 10:28:39] Validated Data:
+Data: Array
+(
+    [serviceID] => glo_data
+    [phone] => 08078123476
+    [plan] => 200
+    [amount] => 137
+    [requestID] => 1744360119128c6nbco
+    [userId] => 1
+    [api] => ap_7b1896948907b9299ee7129ede348e13
+)
+
+--------------------------------------------------
+[2025-04-11 10:28:40] GSUBZ API Response:
+Data: {
+    "code": "407",
+    "description": "Chat Admin to get upgraded before using our API, Thank you!",
+    "status": "TRANSACTION_FAILED"
+}
+--------------------------------------------------

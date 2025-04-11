@@ -609,7 +609,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Remove VTPASS_NETWORKS and replace with Gsubz network codes
 const GSUBZ_NETWORKS = {
     'mtn': 'mtn',
     'glo': 'glo',

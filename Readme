@@ -1,0 +1,209 @@
+# SubPay - Subscription Services Platform
+
+SubPay is a web-based platform that allows users to purchase airtime, data bundles, and manage utility bill payments all in one place.
+
+## Features
+
+- **User Authentication**
+  - User registration and login
+  - Secure password handling
+  - Token-based authentication
+
+- **Services**
+  - Airtime Recharge
+  - Data Bundles Purchase
+  - Utility Bills Payment
+
+- **Key Features**
+  - Instant Recharge
+  - Scheduled Payments
+  - Transaction History
+  - Secure Payment Processing
+  - 24/7 Customer Support
+
+## Tech Stack
+
+- **Frontend**
+  - HTML5
+  - CSS3
+  - JavaScript
+  - Font Awesome Icons
+
+- **Backend**
+  - PHP
+  - MySQL Database
+
+- **APIs**
+  - GSUBZ API Integration for services
+
+## Database Structure
+
+```sql
+-- Users table
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    fullname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+    balance DECIMAL(10,2) DEFAULT 0.00,
+    token VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Transactions table
+CREATE TABLE transactions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    type VARCHAR(20) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    purpose VARCHAR(255),
+    status VARCHAR(20) NOT NULL,
+    reference VARCHAR(100),
+    phone_number VARCHAR(20),
+    network VARCHAR(20),
+    details JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
+
+## GSUBZ API Integration
+
+### API Configuration
+```php
+// filepath: config/api_config.php
+define('GSUBZ_API_KEY', 'ap_7b1896948907b9299ee7129ede348e13');
+define('GSUBZ_BASE_URL', 'https://gsubz.com/api/');
+```
+
+### Service IDs
+- `glo_data`: Glo Data Bundle Services
+- `glo_cg`: Glo Airtime Services
+
+### Request Structure
+```php
+$requestData = [
+    'serviceID' => 'glo_data',    // Service identifier
+    'phone' => '08078123476',     // Customer phone number
+    'plan' => '200',              // Plan/Package ID
+    'amount' => '137',            // Transaction amount
+    'requestID' => uniqid(),      // Unique transaction reference
+    'userId' => '1',              // System user ID
+    'api' => GSUBZ_API_KEY        // API authentication key
+];
+```
+
+### Response Format
+```json
+{
+    "code": "407",
+    "description": "Response message",
+    "status": "TRANSACTION_FAILED|SUCCESS",
+    "content": {
+        "requestID": "transaction_reference",
+        "serviceID": "service_identifier",
+        "status": "transaction_status",
+        "description": "detailed_message"
+    }
+}
+```
+
+### Transaction States
+- `TRANSACTION_FAILED`: Failed transactions
+- `SUCCESS`: Successful transactions
+- `PENDING`: Processing transactions
+
+### Error Handling
+Common error responses:
+- 407: API authentication/upgrade required
+- SERVICE_CANNOT_BE_FOUND: Invalid service ID
+- INSUFFICIENT_FUNDS: Wallet balance too low
+- INVALID_PHONE: Incorrect phone number format
+
+### Implementation Example
+```php
+// filepath: handlers/process_transaction.php
+function processGsubzTransaction($data) {
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => GSUBZ_BASE_URL . 'process',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($data)
+    ]);
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    // Log transaction
+    error_log("[" . date('Y-m-d H:i:s') . "] GSUBZ API Response:\n" .
+              "Data: " . $response . "\n" .
+              "--------------------------------------------------\n",
+              3,
+              "debug.log");
+              
+    return json_decode($response, true);
+}
+```
+
+### Debug Logging
+The system maintains detailed transaction logs including:
+- Raw POST data
+- Validated request data
+- API responses
+- Transaction timestamps
+
+Logs are stored in: `handlers/debug.log`
+
+## Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/subpay.git
+```
+
+2. Set up your local web server (XAMPP/WAMP)
+   - Copy the project to your htdocs folder
+   - Start Apache and MySQL services
+
+3. Create the database
+   - Open phpMyAdmin
+   - Create a new database named 'subpay_db'
+   - Import the SQL structure from the database section above
+
+4. Configure the application
+   - Update database credentials in your configuration file
+   - Set up your GSUBZ API credentials
+
+## Usage
+
+1. Register a new account
+2. Log in to your dashboard
+3. Add funds to your wallet
+4. Start making transactions:
+   - Purchase airtime
+   - Buy data bundles
+   - Pay utility bills
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details
+
+## Credits
+
+Developed by [OG luck](https://daniel-gbenga-portfolio.vercel.app/)
+
+## Contact
+
+- Support Email: support@subpay.com
+- Phone: +23408078123476
